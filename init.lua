@@ -986,7 +986,6 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   { import = 'custom.plugins' },
-  { import = 'custom.config' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -1013,6 +1012,16 @@ require('lazy').setup({
     },
   },
 })
+
+-- Load all Lua files in lua/custom/config/
+local config_path = vim.fn.stdpath 'config' .. '/lua/custom/config'
+local scan = require 'plenary.scandir' -- Optional, see below
+
+-- Use plenary (recommended if you already have it for Lazy)
+for _, file in ipairs(scan.scan_dir(config_path, { depth = 1, add_dirs = false })) do
+  local module = file:match('lua/(.-)%.lua$'):gsub('/', '.')
+  require(module)
+end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
