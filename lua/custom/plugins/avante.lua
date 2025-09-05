@@ -100,7 +100,7 @@ return {
     providers = {
       ollama = {
         endpoint = 'http://localhost:11434',
-        model = 'qwq:32b',
+        model = 'qwen2.5-coder:latest',
         timeout = 30000, -- Timeout in milliseconds
         extra_request_body = {
           temperature = 0.75,

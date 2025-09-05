@@ -121,6 +121,14 @@ end)
 -- Enable break indent
 vim.o.breakindent = true
 
+-- Improve indentation behavior
+vim.o.autoindent = true
+vim.o.smartindent = true
+vim.o.expandtab = true  -- Use spaces instead of tabs
+vim.o.shiftwidth = 2   -- Number of spaces for each indentation level
+vim.o.tabstop = 2      -- Number of spaces a tab counts for
+vim.o.softtabstop = 2  -- Number of spaces a tab counts for when editing
+
 -- Save undo history
 vim.o.undofile = true
 
@@ -698,6 +706,15 @@ require('lazy').setup({
             },
           },
         },
+
+        -- HTML/CSS/JS Language Server for better indentation and features
+        html = {
+          filetypes = { 'html', 'templ' },
+        },
+
+        cssls = {
+          filetypes = { 'css', 'scss', 'less' },
+        },
       }
 
       -- Ensure the servers and tools above are installed
@@ -715,7 +732,45 @@ require('lazy').setup({
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+        -- Lua tools
         'stylua', -- Used to format Lua code
+        'lua-language-server',
+        
+        -- HTML/CSS/JS tools
+        'html-lsp',
+        'css-lsp', 
+        'prettier', -- HTML/CSS/JS formatter
+        'prettierd', -- Faster prettier daemon
+        
+        -- Python tools (if you work with Python)
+        'black',
+        'isort',
+        'python-lsp-server',
+        
+        -- Terraform tools (since you have terraform config)
+        'terraform-ls',
+        'tflint',
+        
+        -- Shell/Bash tools
+        'bash-language-server',
+        'shfmt',
+        
+        -- JSON/YAML tools
+        'json-lsp',
+        'yaml-language-server',
+        'yamlfmt',
+        
+        -- Markdown tools
+        'marksman',
+        'markdownlint',
+        
+        -- Add other tools you commonly use
+        -- Uncomment as needed:
+        -- 'typescript-language-server',
+        -- 'eslint_d',
+        -- 'gopls',
+        -- 'rust-analyzer',
+        -- 'clangd',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -774,6 +829,21 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        
+        -- HTML/CSS/Web formatting
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'prettierd', 'prettier', stop_after_first = true },
+        scss = { 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'yamlfmt' },
+        
+        -- Shell formatting
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
+        
+        -- Markdown formatting
+        markdown = { 'prettier', 'markdownlint' },
       },
     },
   },
@@ -945,7 +1015,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'css', 'diff', 'html', 'javascript', 'json', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'python', 'query', 'typescript', 'vim', 'vimdoc', 'yaml' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
